@@ -1,0 +1,33 @@
+options/train_gfpgan_v1_simple.yml
+
+
+python -m torch.distributed.launch --nproc_per_node=4 --master_port=22021 gfpgan/train.py -opt options/train_gfpgan_v1.yml --launcher pytorch
+
+
+git clone https://github.com/LeslieZhoa/GFPGAN-1024.git
+cd GFPGAN-1024
+
+conda create -n gfpgan_training python=3.9
+conda activate gfpgan_training
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+
+
+host_images.py
+pip install flask
+
+
+
+pip install Pillow opencv-python
+
+rm -rf /home/ubuntu/Desktop/eugene/GFPGAN/results/
+
+python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image18.jpg -o _v1.4 -v 1.4 --ext png
+
+python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image18.jpg -o _1024 -v 1024 --ext png
+
+
+python inference_gfpgan.py -i inputs/eu -o results_1024 -v 1024 --ext png
+
