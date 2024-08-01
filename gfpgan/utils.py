@@ -9,7 +9,7 @@ from torchvision.transforms.functional import normalize
 from gfpgan.archs.gfpgan_bilinear_arch import GFPGANBilinear
 from gfpgan.archs.gfpganv1_arch import GFPGANv1
 from gfpgan.archs.gfpganv1_clean_arch import GFPGANv1Clean
-from gfpgan.archs.generator import GFPGANv1Clean1024
+from gfpgan.archs.gfpganv1024_clean_arch import GFPGANv1024Clean
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -89,7 +89,7 @@ class GFPGANer:
                 sft_half=True,
             )
         elif arch == "1024":
-            self.gfpgan = GFPGANv1Clean1024(
+            self.gfpgan = GFPGANv1024Clean(
                 out_size=512,
                 channel_multiplier=2,
                 fix_decoder=False,
@@ -101,6 +101,7 @@ class GFPGANer:
             from gfpgan.archs.restoreformer_arch import RestoreFormer
 
             self.gfpgan = RestoreFormer()
+
         # initialize face helper
         self.face_helper = FaceRestoreHelper(
             upscale,

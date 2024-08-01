@@ -178,7 +178,7 @@ class StyleGAN2GeneratorCSFT(StyleGAN2GeneratorClean):
             return image, None
 
 
-class GFPGANv1Clean1024(nn.Module):
+class GFPGANv1024Clean(nn.Module):
     """The GFPGAN architecture: Unet + StyleGAN2 decoder with SFT.
 
     It is the clean version without custom compiled CUDA extensions used in StyleGAN2.
@@ -214,7 +214,7 @@ class GFPGANv1Clean1024(nn.Module):
         sft_half=False,
     ):
 
-        super(GFPGANv1Clean1024, self).__init__()
+        super(GFPGANv1024Clean, self).__init__()
         self.input_is_latent = input_is_latent
         self.different_w = different_w
         self.num_style_feat = num_style_feat
@@ -333,7 +333,7 @@ class GFPGANv1Clean1024(nn.Module):
     def forward(
         self, x, return_latents=False, return_rgb=True, randomize_noise=True, **kwargs
     ):
-        """Forward function for GFPGANv1Clean1024.
+        """Forward function for GFPGANv1024Clean.
 
         Args:
             x (Tensor): Input images.

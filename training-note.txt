@@ -24,10 +24,28 @@ pip install Pillow opencv-python
 
 rm -rf /home/ubuntu/Desktop/eugene/GFPGAN/results/
 
-python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image18.jpg -o _v1.4 -v 1.4 --ext png
+python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image15.jpg -o _v1.4 -v 1.4 --ext png
 
 python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image18.jpg -o _1024 -v 1024 --ext png
 
 
-python inference_gfpgan.py -i inputs/eu -o results_1024 -v 1024 --ext png
+python inference_gfpgan.py -i /home/ubuntu/Desktop/eugene/GFPGAN/inputs/eu/image15.jpg -v 1024 --ext png
+
+
+
+python inference_gfpgan.py -i inputs/deform -o _v1.4 -v 1.4 --ext png
+
+python inference_gfpgan.py -i inputs/deform -o _v1024 -v 1024 --ext png
+
+python inference_gfpgan.py -i inputs/deform -o _vRF -v RestoreFormer --ext png
+
+
+python images_compare.py
+
+python inference_gfpgan.py -i inputs/deform/image_web_2.jpg -o _v1.4 -v 1.4 --ext png
+
+python inference_gfpgan.py -i inputs/deform/image_web_2.jpg -o _v1024 -v 1024 --ext png
+
+python inference_gfpgan.py -i inputs/deform/image_web_2.jpg -o _vRF -v RestoreFormer --ext png
+
 

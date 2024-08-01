@@ -225,11 +225,11 @@ def main():
 
             # save comparison image
             # print("    Creating comparison image...")
-            cmp_img = np.concatenate((cropped_face, restored_face), axis=1)
-            cmp_save_path = os.path.join(
-                args.output, "cmp", f"{basename}_{idx:02d}.png"
-            )
-            imwrite(cmp_img, cmp_save_path)
+            # cmp_img = np.concatenate((cropped_face, restored_face), axis=1)
+            # cmp_save_path = os.path.join(
+            #     args.output, "cmp", f"{basename}_{idx:02d}.png"
+            # )
+            # imwrite(cmp_img, cmp_save_path)
             # print(f"    Saved comparison image: {cmp_save_path}")
 
         # save restored img
