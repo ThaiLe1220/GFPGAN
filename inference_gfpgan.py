@@ -41,7 +41,6 @@ def main():
         default=2,
         help="The final upsampling scale of the image. Default: 2",
     )
-
     parser.add_argument(
         "--bg_upsampler",
         type=str,
@@ -53,6 +52,13 @@ def main():
         type=int,
         default=400,
         help="Tile size for background sampler, 0 for no tile during testing. Default: 400",
+    )
+    parser.add_argument(
+        "-c",
+        "--comfy",
+        type=str,
+        default="None",
+        help="comfy version of face restoration",
     )
     parser.add_argument(
         "--suffix", type=str, default=None, help="Suffix of the restored faces"
@@ -72,8 +78,6 @@ def main():
     parser.add_argument(
         "-w", "--weight", type=float, default=0.5, help="Adjustable weights."
     )
-    args = parser.parse_args()
-
     args = parser.parse_args()
 
     # ------------------------ input & output ------------------------
@@ -156,6 +160,11 @@ def main():
     else:
         raise ValueError(f"Wrong model version {args.version}.")
 
+    if args.comfy == "1":
+        comfy = "1"
+    else:
+        raise ValueError(f"Wrong comfy version {args.comfy}.")
+
     # determine model paths
     model_path = os.path.join("experiments/pretrained_models", model_name + ".pth")
     print(model_path)
@@ -172,6 +181,7 @@ def main():
         arch=arch,
         channel_multiplier=channel_multiplier,
         bg_upsampler=bg_upsampler,
+        comfy=comfy,
     )
 
     total_time = 0

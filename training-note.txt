@@ -49,3 +49,33 @@ python inference_gfpgan.py -i inputs/deform/image_web_2.jpg -o _v1024 -v 1024 --
 python inference_gfpgan.py -i inputs/deform/image_web_2.jpg -o _vRF -v RestoreFormer --ext png
 
 
+
+pip install --upgrade pip
+
+git clone https://github.com/comfyanonymous/ComfyUI.git
+pip install -r requirements.txt
+
+cd custom_nodes
+git clone https://github.com/jags111/efficiency-nodes-comfyui.git
+cd efficiency-nodes-comfyui
+pip install -r requirements.txt
+cd ..
+
+git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
+cd comfyui_controlnet_aux
+pip install -r requirements.txt
+cd ..
+
+cd..
+
+download models here https://drive.google.com/drive/folders/1Qbb35u9U9aluj5lrByARaEU59cOY9K3T?usp=sharing
+
+Then put into ComfyUI/models
+
+
+python inference_gfpgan.py -i inputs/deform/DEFORMED_00006_.png -o _v1.4_c -v 1.4 --ext png -c 1
+
+python inference_gfpgan.py -i inputs/deform/DEFORMED_00019_.png -o _v1.4_c -v 1.4 --ext png -c 1
+
+python inference_gfpgan.py -i inputs/deform/shorpy_2.jpg -o _v1.4_c -v 1.4 --ext png -c 1
+

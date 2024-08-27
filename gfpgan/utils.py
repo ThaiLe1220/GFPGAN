@@ -12,6 +12,7 @@ from gfpgan.archs.gfpganv1_clean_arch import GFPGANv1Clean
 from gfpgan.archs.gfpganv1024_clean_arch import GFPGANv1024Clean
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from comfy_utils import face_enhance_inference, setup_comfy_environment
 
 
 class GFPGANer:
@@ -38,9 +39,11 @@ class GFPGANer:
         channel_multiplier=2,
         bg_upsampler=None,
         device=None,
+        comfy="None",
     ):
         self.upscale = upscale
         self.bg_upsampler = bg_upsampler
+        self.comfy = comfy
 
         # initialize model
         self.device = (
@@ -132,6 +135,9 @@ class GFPGANer:
         else:
             self.gfpgan.load_state_dict(loadnet[keyname], strict=True)
 
+        if comfy != "None":
+            setup_comfy_environment()
+
         self.gfpgan.eval()
         self.gfpgan = self.gfpgan.to(self.device)
 
@@ -162,6 +168,7 @@ class GFPGANer:
 
         # face restoration
         for cropped_face in self.face_helper.cropped_faces:
+
             # prepare data
             cropped_face_t = img2tensor(
                 cropped_face / 255.0, bgr2rgb=True, float32=True
@@ -171,13 +178,19 @@ class GFPGANer:
 
             try:
                 output = self.gfpgan(cropped_face_t, return_rgb=False, weight=weight)[0]
-                # convert to image
-                restored_face = tensor2img(
-                    output.squeeze(0), rgb2bgr=True, min_max=(-1, 1)
-                )
+                face = tensor2img(output.squeeze(0), rgb2bgr=True, min_max=(-1, 1))
 
-                # print("[WORKFLOW] [utils.py]")
-                # print(restored_face)
+                restored_face = face_enhance_inference(
+                    cropped_face,
+                    face.astype("uint8"),
+                    0.5,
+                    1,
+                    4,
+                    999999999,  
+                    0.35,
+                )
+                # print(new_output)
+
             except RuntimeError as error:
                 print(f"\tFailed inference for GFPGAN: {error}.")
                 restored_face = cropped_face
@@ -196,6 +209,7 @@ class GFPGANer:
                 bg_img = None
 
             self.face_helper.get_inverse_affine(None)
+
             # paste each restored face to the input image
             restored_img = self.face_helper.paste_faces_to_input_image(
                 upsample_img=bg_img
